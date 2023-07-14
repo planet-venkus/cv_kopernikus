@@ -14,6 +14,12 @@ ap.add_argument("-p",
 FLAGS = ap.parse_args()
 
 def imgs_dict_on_cam_id(cam_ids: List[str], img_list: List[str]) -> dict:
+    """
+    Create dictionary of images based on camera id. Helps in comparing images from same camera.
+    :param cam_ids: List of camera ids
+    :param img_list: Image list containing all image paths
+    :return: Image dictionary
+    """
     img_dict = {}
     for image_file in img_list:
         for cam_id in cam_ids:
@@ -25,14 +31,18 @@ def imgs_dict_on_cam_id(cam_ids: List[str], img_list: List[str]) -> dict:
     return img_dict
 
 def standardize_image(image, cam_id):
+    """
+    Standardize image size
+    :param image: Image to be standardized
+    :param cam_id: Camera id of the image
+    :return: Standardized image
+    """
     if cam_id == "c10":
-        image = cv2.resize(image, (160, 120))
-        # image = cv2.resize(image, (320, 240))
-    else:
-        # image = cv2.resize(image, (1920, 1080))
         image = cv2.resize(image, (640, 480))
+    else:
+        # image = cv2.resize(image, (1920, 1080)) # Aspect ratio to be maintained
+        image = cv2.resize(image, (640, 480)) # Smaller image size for faster processing and similar image detection
     return image
-
 
 def remove_similar_images(args, threshhold):
     """
