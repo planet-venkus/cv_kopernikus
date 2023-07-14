@@ -7,11 +7,12 @@ This repository contains the code for cleaning Image data using Computer vision 
 2. Download the dataset into the repository file.
 3. Create a virtual environment having packages OpenCV, imutils installed.
 4. Run the file imaging_dataset.py as below
-   python rmv_similar_img.py -p path_to_images
+
+   `python rmv_similar_img.py -p path_to_images`
 
 ## Q & A:
 ##### 1. What did you learn after looking on our dataset?
-A. The image dataset is recorded in parking garages. They are recoding from different cameras "c10", "c20", "c21" and "c23". As there are not a lot of moving cars or people in the parking area frequently, there are a lot of static images which are redundant.
+A. The image dataset is recorded in parking garages. They are recording from different cameras "c10", "c20", "c21" and "c23". As there are not a lot of moving cars or people in the parking area frequently, there are a lot of static images which are redundant.
 
 ##### 2. How does your program work?
 A. The program has two main functionalities:
@@ -19,10 +20,10 @@ i) Access all images according to the camera id and compare only those images fr
 ii) Preprocessing the image pairs and comparing those frames to detect the changes.
 
 ##### 3. What values did you decide to use input parameters and how did you find these values?
-A. There are two input parameters to the function remove_similar_images(). One is the path to the dataset and the other is the threshold value. One other parameter could have been used as input parameter "min_contour_area" but has been hardcoded. The values were chosen by running multiple experimental trials.
+A. There are two input parameters to the function `remove_similar_images()`. One is the path to the dataset and the other is the threshold value. One other parameter could have been used as input parameter `min_contour_area` but has been hardcoded. The values were chosen by running multiple experimental trials.
 
-'threshold': Those images which were similar, have a 'score' from the compare_frames_change_detection() function to be zero. And some in the range of 100-500.  Images that were completely apart had a 'score' of a few thousand.
-'min_contour_area/: Those many numbers of pixel groups were considered to detect a change.
+`threshold`: Those images which were similar, have a 'score' from the `compare_frames_change_detection()` function to be zero. And some in the range of 100-500.  Images that were completely apart had a 'score' of a few thousand.
+`min_contour_area`: Those many numbers of pixel groups were considered to detect a change.
 
 ##### 4. What you would suggest to implement to improve the data collection of unique cases in the future?
 A. A good solution would be to record those scenes when there is movement detected between two frames. Algorithms like optical flow and object tracking could be used.
