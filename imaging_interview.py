@@ -2,6 +2,13 @@ import cv2
 import imutils
 
 def draw_color_mask(img, borders, color=(0, 0, 0)):
+    """
+    Draw color mask on image borders
+    :param img: Image of dimension h x w x 3
+    :param borders: 4D tuple
+    :param color: Color of mask
+    :return: Image with color mask
+    """
     h = img.shape[0]
     w = img.shape[1]
 
@@ -19,6 +26,13 @@ def draw_color_mask(img, borders, color=(0, 0, 0)):
 
 
 def preprocess_image_change_detection(img, gaussian_blur_radius_list=None, black_mask=(5, 10, 5, 0)):
+    """
+    Preprocess image for change detection
+    :param img: Image of dimension h x w x 3
+    :param gaussian_blur_radius_list: List of gaussian blur radius
+    :param black_mask: 4D tuple
+    :return: Preprocessed image
+    """
     gray = img.copy()
     gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
     if gaussian_blur_radius_list is not None:
@@ -31,6 +45,13 @@ def preprocess_image_change_detection(img, gaussian_blur_radius_list=None, black
 
 
 def compare_frames_change_detection(prev_frame, next_frame, min_contour_area):
+    """
+    Compare frames for change detection
+    :param prev_frame: Previous frame
+    :param next_frame: Next frame to be compared
+    :param min_contour_area: Minimum contour area to be considered as change detection
+    :return: Score, contours, threshold
+    """
     frame_delta = cv2.absdiff(prev_frame, next_frame)
     thresh = cv2.threshold(frame_delta, 45, 255, cv2.THRESH_BINARY)[1]
 
