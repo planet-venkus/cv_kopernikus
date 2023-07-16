@@ -45,15 +45,13 @@ def standardize_image(image, cam_id):
         # image = cv2.resize(image, (640, 480)) # Smaller image size for faster processing and similar image detection
     return image
 
-def remove_similar_images(args, threshhold):
+def remove_similar_images(args, threshhold, camera_ids=["c10", "c20", "c21", "c23"], min_contour_area=0.01):
     """
     Remove similar images from path
     :param path (str): Path containing images
     :param threshhold (float): Threshhold for image similarity
     :return: None
     """
-    camera_ids = ["c21", "c23"] #["c10", "c20", "c21", "c23"]
-
     image_list = os.listdir(args)
     image_list = [os.path.join(args, image) for image in image_list]
 
@@ -62,7 +60,7 @@ def remove_similar_images(args, threshhold):
     for cam_id, image_l in image_dict.items():
         # # Compare frames
         start_time = time.time()
-        for i in tqdm(range(1, len(image_l))):
+        for i in tqdm(range(0, len(image_l))):
             # TODO: Increase the speed by only comparing images within limited time frame
             prev_file = image_l[i]
             if os.path.exists(prev_file):
@@ -81,17 +79,17 @@ def remove_similar_images(args, threshhold):
 
                             prev_frame_processed = preprocess_image_change_detection(prev_frame)
                             next_frame_processed = preprocess_image_change_detection(next_frame)
-                            score, res_cnts, thresh = compare_frames_change_detection(prev_frame_processed, next_frame_processed, 500)
+                            score, res_cnts, thresh = compare_frames_change_detection(prev_frame_processed, next_frame_processed, min_contour_area)
 
                         if score < threshhold:
                             if os.path.exists(next_file):
                                 os.remove(next_file)
-                                with open(r"{}\\removed_images_1.txt".format(args), "a") as f:
+                                with open(r"{}\\..\\removed_images.txt".format(args), "a") as f:
                                     f.write(r"{}, : Removed {}. Found similar to {}".format(cam_id, next_name, prev_name) + "\n")
 
         end_time = time.time()
         print("Time taken for processing {} is {}".format(cam_id, end_time - start_time))
-        with open(r"{}\\removed_images_1.txt".format(args), "a") as f:
+        with open(r"{}\\..\\removed_images.txt".format(args), "a") as f:
             f.write("Time taken for processing {} is {}".format(cam_id, end_time - start_time) + ("\n"*2))
             f.write("-"*100 + ("\n"*2))
 
@@ -127,4 +125,4 @@ def remove_similar_images(args, threshhold):
     #             print("end")
 
 if __name__ == '__main__':
-    remove_similar_images(FLAGS.p, 1000.0)
+    remove_similar_images(FLAGS.p, 1000.0, ["c10", "c20", "c21", "c23"], 500)

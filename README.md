@@ -20,9 +20,10 @@ i) Access all images according to the camera id and compare only those images fr
 ii) Preprocessing the image pairs and comparing those frames to detect the changes.
 
 ##### 3. What values did you decide to use input parameters and how did you find these values?
-A. There are two input parameters to the function `remove_similar_images()`. One is the path to the dataset and the other is the threshold value. One other parameter could have been used as input parameter `min_contour_area` but has been hardcoded. The values were chosen by running multiple experimental trials.
+A. There are two input parameters to the function `remove_similar_images()`. One is the path to the dataset and the other is the threshold value. The values were chosen by running multiple experimental trials.
 
 `threshold`: Those images which were similar, have a 'score' from the `compare_frames_change_detection()` function to be zero. And some in the range of 100-500.  Images that were completely apart had a 'score' of a few thousand.
+`camera_ids`: Camera ids for which the images are to be compared. If not given, all the cameras are considered.
 `min_contour_area`: Those many numbers of pixel groups were considered to detect a change.
 
 ##### 4. What you would suggest to implement to improve the data collection of unique cases in the future?
@@ -33,3 +34,7 @@ A. It is observed that there are not a lot of duplicates in cameras "c20" and "c
 
 
 Thank you *Kopernikus Automotive GmbH* team for this opportunity to present myself.
+
+
+##### After commit changes:
+1. Added input parameters `camera_ids` and `min_contour_area`.
