@@ -77,8 +77,8 @@ def remove_similar_images(args, threshhold, camera_ids=["c10", "c20", "c21", "c2
                         if next_frame is not None and prev_frame is not None:
                             next_frame = standardize_image(next_frame, cam_id)
 
-                            prev_frame_processed = preprocess_image_change_detection(prev_frame)
-                            next_frame_processed = preprocess_image_change_detection(next_frame)
+                            prev_frame_processed = preprocess_image_change_detection(prev_frame, gaussian_blur_radius_list=[3, 5])
+                            next_frame_processed = preprocess_image_change_detection(next_frame, gaussian_blur_radius_list=[3, 5])
                             score, res_cnts, thresh = compare_frames_change_detection(prev_frame_processed, next_frame_processed, min_contour_area)
 
                         if score < threshhold:
