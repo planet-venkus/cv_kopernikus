@@ -36,5 +36,6 @@ A. It is observed that there are not a lot of duplicates in cameras "c20" and "c
 Thank you *Kopernikus Automotive GmbH* team for this opportunity to present myself.
 
 
-##### After commit changes:
+##### After commit changes (after sending mail):
 1. Added input parameters `camera_ids` and `min_contour_area`.
+2. Tested with Gaussian blur having kernels 3 & 5. Filtered 487 images instead of 377 as before.
