@@ -56,6 +56,7 @@ def remove_similar_images(args, threshhold, camera_ids=["c10", "c20", "c21", "c2
     image_list = [os.path.join(args, image) for image in image_list]
 
     image_dict = imgs_dict_on_cam_id(camera_ids, image_list)
+    img_cache = {}
 
     for cam_id, image_l in image_dict.items():
         # # Compare frames
@@ -64,15 +65,23 @@ def remove_similar_images(args, threshhold, camera_ids=["c10", "c20", "c21", "c2
             # TODO: Increase the speed by only comparing images within limited time frame
             prev_file = image_l[i]
             if os.path.exists(prev_file):
-                prev_frame = cv2.imread(image_l[i])
                 prev_name = image_l[i].split(sep='\\')[-1]
+                if prev_name not in img_cache.keys():
+                    prev_frame = cv2.imread(image_l[i])
+                    img_cache[prev_name] = prev_frame
+                else:
+                    prev_frame = img_cache[prev_name]
                 prev_frame = standardize_image(prev_frame, cam_id)
 
                 for j in range(i + 1, len(image_l)):
                     next_file = image_l[j]
                     next_name = image_l[j].split(sep='\\')[-1]
                     if os.path.exists(next_file):
-                        next_frame = cv2.imread(image_l[j])
+                        if next_name not in img_cache.keys():
+                            prev_frame = cv2.imread(image_l[i])
+                            img_cache[prev_name] = prev_frame
+                        else:
+                            prev_frame = img_cache[prev_name]
 
                         if next_frame is not None and prev_frame is not None:
                             next_frame = standardize_image(next_frame, cam_id)
